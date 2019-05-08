@@ -22,7 +22,7 @@ class Form extends React.Component {
               <option>Benefits</option>
               <option>Healthcare</option>
               <option>Housing</option>
-              <option>Legal</option>
+              <option>Other</option>
             </select>
           </label>
           <textarea>Testing</textarea>
