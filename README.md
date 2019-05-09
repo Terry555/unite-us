@@ -4,7 +4,7 @@ Unite-Us
 
 ## Motivation:
 
-Placeholder
+Coding Challenge
 
 ### Screenshots:
 
