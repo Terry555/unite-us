@@ -22,7 +22,7 @@ React, JSS, Javascript, HTML
 
 ### Features:
 
-Placeholder
+For a code challenge
 
 ## License:
 
