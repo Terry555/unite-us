@@ -5,7 +5,7 @@ class Form extends React.Component {
   render(){
     return (
       <div className="App">
-        New Assistance Request
+        New Request
         <form>
           <label>First Name:
             <input type="text" name="name"/>
