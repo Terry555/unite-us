@@ -12,28 +12,6 @@ class Form extends React.Component {
     }
   }
 
-  componentDidMount(){
-
-    this.setState({ isLoading: true })
-
-    fetch('http://localhost:49567/api/service-types')
-    .then(response => {
-        if (response.ok){
-          return response.json();
-        } else {
-          throw new Error('Something went wrong...');
-        }
-    })
-    .then(data => {
-      this.setState({
-        info: data,
-        isLoading: false
-      })
-    })
-    .catch(error => this.setState({ error, isLoading: false }))
-  }
-
-
   render(){
     console.log(this.state.info.data)
 
@@ -47,18 +25,18 @@ class Form extends React.Component {
       return <p>Loading...</p>;
     }
 
-    if (this.state.info){
-      
-    }
-
     return (
       <div className="App">
         New Request
         <ul>This is where state goes:
-          if (this.state.info){
-            this.state.info.data.map((x, key) =>
-            <li key={x.id}>{x}</li>)
+          if (this.state.info.data){
+          {
+            this.state.info.data.map(x => {
+            return <li key={x.id}>{x}</li>
+          })
+
           }
+        }
         </ul>
         <form>
           <label>First Name:
@@ -84,6 +62,26 @@ class Form extends React.Component {
       </div>
     )
   }
+
+  componentDidMount(){
+    this.setState({ isLoading: true })
+    fetch('http://localhost:49567/api/service-types')
+    .then(response => {
+      if (response.ok){
+        return response.json();
+      } else {
+        throw new Error('Something went wrong...');
+      }
+    })
+    .then(data => {
+      this.setState({
+        info: data,
+        isLoading: false
+      })
+    })
+    .catch(error => this.setState({ error, isLoading: false }))
+  }
+
 }
 
 export default Form
