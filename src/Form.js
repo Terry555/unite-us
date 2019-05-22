@@ -2,29 +2,64 @@ import React from 'react';
 
 
 class Form extends React.Component {
+  constructor(props){
+    super(props);
 
-  state = {
-    info: []
+    this.state = {
+      info: [],
+      isLoading: false,
+      error: null
+    }
   }
 
+  componentDidMount(){
 
-  getInfoFunction = (event) => {
-    // event.preventDefault()
+    this.setState({ isLoading: true })
+
     fetch('http://localhost:49567/api/service-types')
-    .then(response => response.json())
+    .then(response => {
+        if (response.ok){
+          return response.json();
+        } else {
+          throw new Error('Something went wrong...');
+        }
+    })
     .then(data => {
       this.setState({
-        info: data
+        info: data,
+        isLoading: false
       })
     })
+    .catch(error => this.setState({ error, isLoading: false }))
   }
 
+
   render(){
-    console.log(this.state.info)
+    console.log(this.state.info.data)
+
+    const { info, isLoading, error } = this.state;
+
+    if (error) {
+      return <p>{error.message}</p>;
+    }
+
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
+
+    if (this.state.info){
+      
+    }
+
     return (
       <div className="App">
         New Request
-        <h1>This is where state goes: {this.state.info}</h1>
+        <ul>This is where state goes:
+          if (this.state.info){
+            this.state.info.data.map((x, key) =>
+            <li key={x.id}>{x}</li>)
+          }
+        </ul>
         <form>
           <label>First Name:
             <input type="text" name="name"/>
