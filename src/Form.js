@@ -2,10 +2,29 @@ import React from 'react';
 
 
 class Form extends React.Component {
+
+  state = {
+    info: []
+  }
+
+
+  getInfoFunction = (event) => {
+    // event.preventDefault()
+    fetch('http://localhost:49567/api/service-types')
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+        info: data
+      })
+    })
+  }
+
   render(){
+    console.log(this.state.info)
     return (
       <div className="App">
         New Request
+        <h1>This is where state goes: {this.state.info}</h1>
         <form>
           <label>First Name:
             <input type="text" name="name"/>
@@ -25,7 +44,7 @@ class Form extends React.Component {
               <option>Legal</option>
             </select>
           </label>
-          <textarea>Testing</textarea>
+          <textarea defaultValue="yooo"></textarea>
         </form>
       </div>
     )
