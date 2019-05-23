@@ -12,10 +12,16 @@ class Form extends React.Component {
     }
   }
 
+
+
   render(){
     console.log(this.state.info.data)
 
     const { info, isLoading, error } = this.state;
+
+    const infoIterator = this.state.info.data.map(info => {
+      return <li key={info.id}>Something testing</li>
+    })
 
     if (error) {
       return <p>{error.message}</p>;
@@ -29,14 +35,7 @@ class Form extends React.Component {
       <div className="App">
         New Request
         <ul>This is where state goes:
-          if (this.state.info.data){
-          {
-            this.state.info.data.map(x => {
-            return <li key={x.id}>{x}</li>
-          })
-
-          }
-        }
+          {infoIterator}
         </ul>
         <form>
           <label>First Name:
