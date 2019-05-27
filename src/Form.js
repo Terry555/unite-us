@@ -1,41 +1,51 @@
 import React from 'react';
 
+const API = `http://localhost:49567/api/service-types`
+
 
 class Form extends React.Component {
-  constructor(props){
-    super(props);
+  // constructor(props){
+  //   super(props);
 
-    this.state = {
-      info: [],
-      isLoading: false,
-      error: null
+    state = {
+      info: []
+      // isLoading: false,
+      // error: null
     }
-  }
+  // }
 
+  componentDidMount(){
+    fetch(API)
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+      info: data
+    })
+  })
+  }
 
 
   render(){
     console.log(this.state.info.data)
 
-    const { info, isLoading, error } = this.state;
+    // const { info, isLoading, error } = this.state;
 
-    const infoIterator = this.state.info.data.map(info => {
-      return <li key={info.id}>Something testing</li>
-    })
+    // const infoIterator = this.state.info.data.map(info => {
+    //   return <li key={info.id}>Something testing</li>
+    // })
 
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-
-    if (isLoading) {
-      return <p>Loading...</p>;
-    }
+    // if (error) {
+    //   return <p>{error.message}</p>;
+    // }
+    //
+    // if (isLoading) {
+    //   return <p>Loading...</p>;
+    // }
 
     return (
       <div className="App">
         New Request
         <ul>This is where state goes:
-          {infoIterator}
         </ul>
         <form>
           <label>First Name:
@@ -62,24 +72,7 @@ class Form extends React.Component {
     )
   }
 
-  componentDidMount(){
-    this.setState({ isLoading: true })
-    fetch('http://localhost:49567/api/service-types')
-    .then(response => {
-      if (response.ok){
-        return response.json();
-      } else {
-        throw new Error('Something went wrong...');
-      }
-    })
-    .then(data => {
-      this.setState({
-        info: data,
-        isLoading: false
-      })
-    })
-    .catch(error => this.setState({ error, isLoading: false }))
-  }
+
 
 }
 
