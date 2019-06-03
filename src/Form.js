@@ -4,69 +4,70 @@ const API = `http://localhost:49567/api/service-types`
 
 
 class Form extends React.Component {
-  // constructor(props){
-  //   super(props);
 
     state = {
-      info: []
-      // isLoading: false,
-      // error: null
+      info: [],
+      formValues: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        select: ''
+      }
     }
-  // }
 
   componentDidMount(){
     fetch(API)
     .then(response => response.json())
     .then(data => {
       this.setState({
-      info: data
+      info: data.data
     })
   })
   }
 
+  submitFunction = (event) => {
+    event.preventDefault()
+    // fetch(API).then().then()
+  }
+
+  changeFunction = (event) => {
+    // event.preventDefault()
+    debugger
+    this.setState({
+      formValues: {
+        firstName: 'testing'
+      }
+    })
+  }
+
 
   render(){
-    console.log(this.state.info.data)
-
-    // const { info, isLoading, error } = this.state;
-
-    // const infoIterator = this.state.info.data.map(info => {
-    //   return <li key={info.id}>Something testing</li>
-    // })
-
-    // if (error) {
-    //   return <p>{error.message}</p>;
-    // }
-    //
-    // if (isLoading) {
-    //   return <p>Loading...</p>;
-    // }
+    console.log(this.state.info)
 
     return (
       <div className="App">
         New Request
         <ul>This is where state goes:
         </ul>
-        <form>
+        <form onSubmit={this.submitFunction}>
           <label>First Name:
-            <input type="text" name="name"/>
+            <input onChange={this.changeFunction} type="text" name="first_name" value={this.state.formValues.firstName}/>
           </label>
           <label>Last Name:
-            <input type="text" name="name"/>
+            <input type="text" name="last_name"/>
           </label>
           <label>Email Address:
-            <input type="text" name="name"/>
+            <input type="text" name="email"/>
           </label>
           <label>Select Service Type:
             <select>
-              <option>Employment</option>
-              <option>Benefits</option>
-              <option>Healthcare</option>
-              <option>Housing</option>
-              <option>Legal</option>
+              {this.state.info.map((item, id) => {
+                  return <option key={id}>{item.display_name}</option>
+                })}
             </select>
           </label>
-          <textarea defaultValue="yooo"></textarea>
+          <textarea defaultValue="default text"></textarea>
+          <button type="submit">Submit</button>
         </form>
       </div>
     )
