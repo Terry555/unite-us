@@ -7,11 +7,13 @@ class Form extends React.Component {
 
     state = {
       info: [],
+      testing: '',
       formValues: {
         firstName: '',
         lastName: '',
         email: '',
-        select: ''
+        selectData: '',
+        textData: ''
       }
     }
 
@@ -31,18 +33,16 @@ class Form extends React.Component {
   }
 
   changeFunction = (event) => {
-    // event.preventDefault()
-    debugger
+    event.preventDefault()
     this.setState({
-      formValues: {
-        firstName: 'testing'
-      }
+      formValues: {[event.target.name]: event.target.value}
     })
+
   }
 
 
   render(){
-    console.log(this.state.info)
+    console.log(this.state)
 
     return (
       <div className="App">
@@ -51,22 +51,22 @@ class Form extends React.Component {
         </ul>
         <form onSubmit={this.submitFunction}>
           <label>First Name:
-            <input onChange={this.changeFunction} type="text" name="first_name" value={this.state.formValues.firstName}/>
+            <input onChange={this.changeFunction} type="text" name="firstName" value={this.state.formValues.firstName}/>
           </label>
           <label>Last Name:
-            <input type="text" name="last_name"/>
+            <input onChange={this.changeFunction} type="text" name="lastName" value={this.state.formValues.lastName}/>
           </label>
           <label>Email Address:
-            <input type="text" name="email"/>
+            <input onChange={this.changeFunction} type="text" name="email" value={this.state.formValues.email}/>
           </label>
           <label>Select Service Type:
-            <select>
+            <select name="selectData">
               {this.state.info.map((item, id) => {
                   return <option key={id}>{item.display_name}</option>
                 })}
             </select>
           </label>
-          <textarea defaultValue="default text"></textarea>
+          <textarea defaultValue="default text" name="textData"></textarea>
           <button type="submit">Submit</button>
         </form>
       </div>
