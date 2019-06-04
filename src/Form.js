@@ -1,24 +1,23 @@
 import React from 'react';
 
-const API = `http://localhost:49567/api/service-types`
+const APIGET = `http://localhost:49567/api/service-types`
+const APIPOST = `http://localhost:49567/api/assistance-requests`
+
 
 
 class Form extends React.Component {
 
     state = {
       info: [],
-      testing: '',
-      formValues: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        selectData: '',
-        textData: ''
-      }
+      firstName: '',
+      lastName: '',
+      email: '',
+      selectData: '',
+      textData: ''
     }
 
   componentDidMount(){
-    fetch(API)
+    fetch(APIGET)
     .then(response => response.json())
     .then(data => {
       this.setState({
@@ -29,13 +28,32 @@ class Form extends React.Component {
 
   submitFunction = (event) => {
     event.preventDefault()
-    // fetch(API).then().then()
+    fetch('http://localhost:49567/api/assistance-requests', {
+      headers: {
+        'Content-Type':'application/json',
+        'Accept': 'application/json'},
+      method: 'POST',
+      body: JSON.stringify({ assistance_request: {
+                                contact: {
+                                  first_name: this.state.firstName,
+                                  last_name: this.state.lastName,
+                                  email: this.state.email
+                                },
+                                service_type: this.state.selectData,
+                                description: this.state.textData
+
+                                                  }
+                          })
+              })
+              // .then(response => response.json()).then(data => {
+              //   console.log(data)
+              // })
   }
 
   changeFunction = (event) => {
     event.preventDefault()
     this.setState({
-      formValues: {[event.target.name]: event.target.value}
+      [event.target.name]: event.target.value
     })
 
   }
@@ -47,26 +65,24 @@ class Form extends React.Component {
     return (
       <div className="App">
         New Request
-        <ul>This is where state goes:
-        </ul>
         <form onSubmit={this.submitFunction}>
           <label>First Name:
-            <input onChange={this.changeFunction} type="text" name="firstName" value={this.state.formValues.firstName}/>
+            <input onChange={this.changeFunction} type="text" name="firstName" value={this.state.firstName}/>
           </label>
           <label>Last Name:
-            <input onChange={this.changeFunction} type="text" name="lastName" value={this.state.formValues.lastName}/>
+            <input onChange={this.changeFunction} type="text" name="lastName" value={this.state.lastName}/>
           </label>
           <label>Email Address:
-            <input onChange={this.changeFunction} type="text" name="email" value={this.state.formValues.email}/>
+            <input onChange={this.changeFunction} type="text" name="email" value={this.state.email}/>
           </label>
           <label>Select Service Type:
-            <select name="selectData">
+            <select onChange={this.changeFunction} name="selectData" value={this.state.selectData}>
               {this.state.info.map((item, id) => {
                   return <option key={id}>{item.display_name}</option>
                 })}
             </select>
           </label>
-          <textarea defaultValue="default text" name="textData"></textarea>
+          <textarea onChange={this.changeFunction} name="textData" value={this.state.textData}></textarea>
           <button type="submit">Submit</button>
         </form>
       </div>
