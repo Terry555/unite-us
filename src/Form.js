@@ -12,7 +12,7 @@ class Form extends React.Component {
       firstName: '',
       lastName: '',
       email: '',
-      selectData: '',
+      selectData: 'Benefits',
       textData: ''
     }
 
@@ -28,11 +28,12 @@ class Form extends React.Component {
 
   submitFunction = (event) => {
     event.preventDefault()
-    fetch('http://localhost:49567/api/assistance-requests', {
+    fetch(APIPOST, {
       headers: {
         'Content-Type':'application/json',
         'Accept': 'application/json'},
       method: 'POST',
+      cache: 'no-cache',
       body: JSON.stringify({ assistance_request: {
                                 contact: {
                                   first_name: this.state.firstName,
@@ -41,13 +42,19 @@ class Form extends React.Component {
                                 },
                                 service_type: this.state.selectData,
                                 description: this.state.textData
-
-                                                  }
+                                }
                           })
-              })
-              // .then(response => response.json()).then(data => {
-              //   console.log(data)
-              // })
+        })
+        .then(response => {
+          if (response.status > 299) {
+            response.json().then(data => {
+              alert(data.message)
+            })
+          // alert("the status code was " + response.status)
+        } else {
+          console.log(response.status)
+        }
+        })
   }
 
   changeFunction = (event) => {
@@ -82,7 +89,7 @@ class Form extends React.Component {
                 })}
             </select>
           </label>
-          <textarea onChange={this.changeFunction} name="textData" value={this.state.textData}></textarea>
+          <textarea onChange={this.changeFunction} name="textData" value={this.state.textData} placeholder="type request here"></textarea>
           <button type="submit">Submit</button>
         </form>
       </div>
