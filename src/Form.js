@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Row, Col} from 'react-bootstrap';
+import {Form, Col, Button} from 'react-bootstrap';
 
 
 const APIGET = `http://localhost:49567/api/service-types`
@@ -11,6 +11,7 @@ class FormClass extends React.Component {
 
     state = {
       info: [],
+      checked: false,
       firstName: '',
       lastName: '',
       email: '',
@@ -30,6 +31,7 @@ class FormClass extends React.Component {
 
   submitFunction = (event) => {
     event.preventDefault()
+    if (this.state.checked){
     fetch(APIPOST, {
       headers: {
         'Content-Type':'application/json',
@@ -59,6 +61,9 @@ class FormClass extends React.Component {
           selectData: 'Benefits',
           textData: ''
         }))
+      } else {
+        alert("Must agree to terms of service.")
+      }
   }
 
   changeFunction = (event) => {
@@ -69,38 +74,48 @@ class FormClass extends React.Component {
 
   }
 
+  isChecked = (event) => {
+    event.preventDefault()
+    this.setState({
+      checked: event.target.checked
+    })
+  }
+
 
   render(){
-
+    console.log(this.state)
     return (
-        <Form onSubmit={this.submitFunction}>
+        <Form onSubmit={this.submitFunction}> New Assistance Request
           <Col>
-          <Form.Group>
-          <Form.Label>First Name:
-            <Form.Control onChange={this.changeFunction} type="input" name="firstName" value={this.state.firstName}/>
-          </Form.Label>
-          </Form.Group>
-          <Form.Group>
-          <Form.Label>Last Name:
-            <Form.Control onChange={this.changeFunction} type="input" name="lastName" value={this.state.lastName}/>
-          </Form.Label>
-          </Form.Group>
-          <Form.Group>
-          <Form.Label>Email Address:
-            <Form.Control onChange={this.changeFunction} type="input" name="email" value={this.state.email}/>
-          </Form.Label>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Select Service Type:
-            <select onChange={this.changeFunction} name="selectData" value={this.state.selectData}>
-              {this.state.info.map((item, id) => {
-                  return <option key={id}>{item.display_name}</option>
-                })}
-            </select>
-          </Form.Label>
-        </Form.Group>
-          <textarea onChange={this.changeFunction} name="textData" value={this.state.textData} placeholder="type request here"></textarea>
-          <button type="submit">Submit</button>
+            <Form.Group>
+              <Form.Label>
+                <Form.Control onChange={this.changeFunction} type="input" name="firstName" value={this.state.firstName} placeholder="First Name"/>
+              </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>
+                <Form.Control onChange={this.changeFunction} type="input" name="lastName" value={this.state.lastName} placeholder="Last Name"/>
+              </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>
+                <Form.Control onChange={this.changeFunction} type="input" name="email" value={this.state.email} placeholder="Email Address"/>
+              </Form.Label>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Select Service Type:
+                  <select onChange={this.changeFunction} name="selectData" value={this.state.selectData} placeholder="First Name">
+                    {this.state.info.map((item, id) => {
+                        return <option key={id}>{item.display_name}</option>
+                      })}
+                  </select>
+                </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Control type="textarea" onChange={this.changeFunction} name="textData" value={this.state.textData}/>
+            </Form.Group>
+            <Form.Group><Form.Check type="checkbox" checked={this.state.checked} onChange={this.isChecked} label="I hereby accept the terms of service for THE NETWORK and the Privacy Policy"/></Form.Group>
+            <Form.Group><Button type="submit">Get Assistance</Button></Form.Group>
           </Col>
         </Form>
     )
