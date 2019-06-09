@@ -83,11 +83,11 @@ class FormClass extends React.Component {
 
 
   render(){
-    console.log(this.state)
+    console.log(this.state.info)
     return (
-        <Form onSubmit={this.submitFunction}> New Assistance Request
+        <Form className="whole-form" onSubmit={this.submitFunction}> New Assistance Request
           <Col>
-            <Form.Group>
+            <Form.Group controlId="exampleForm">
               <Form.Label>
                 <Form.Control onChange={this.changeFunction} type="input" name="firstName" value={this.state.firstName} placeholder="First Name"/>
               </Form.Label>
@@ -104,7 +104,7 @@ class FormClass extends React.Component {
             </Form.Group>
             <Form.Group>
                 <Form.Label>Select Service Type:
-                  <select onChange={this.changeFunction} name="selectData" value={this.state.selectData} placeholder="First Name">
+                  <select onChange={this.changeFunction} name="selectData" value={this.state.selectData} placeholder="Service Type">
                     {this.state.info.map((item, id) => {
                         return <option key={id}>{item.display_name}</option>
                       })}
@@ -112,8 +112,10 @@ class FormClass extends React.Component {
                 </Form.Label>
             </Form.Group>
             <Form.Group>
+              <Form.Label>
               <Form.Control type="textarea" onChange={this.changeFunction} name="textData" value={this.state.textData}/>
-            </Form.Group>
+              </Form.Label>
+          </Form.Group>
             <Form.Group><Form.Check type="checkbox" checked={this.state.checked} onChange={this.isChecked} label="I hereby accept the terms of service for THE NETWORK and the Privacy Policy"/></Form.Group>
             <Form.Group><Button type="submit">Get Assistance</Button></Form.Group>
           </Col>
