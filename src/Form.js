@@ -55,6 +55,7 @@ class FormClass extends React.Component {
             })
         })
         .then(this.setState({
+          checked: false,
           firstName: '',
           lastName: '',
           email: '',
@@ -85,35 +86,36 @@ class FormClass extends React.Component {
   render(){
     console.log(this.state.info)
     return (
-        <Form className="whole-form" onSubmit={this.submitFunction}> New Assistance Request
+        <Form className="whole-form" onSubmit={this.submitFunction}>
+          <h3>New Assistance Request</h3>
           <Col>
             <Form.Group controlId="exampleForm">
               <Form.Label>
-                <Form.Control onChange={this.changeFunction} type="input" name="firstName" value={this.state.firstName} placeholder="First Name"/>
+                <Form.Control onChange={this.changeFunction} as="input" name="firstName" value={this.state.firstName} placeholder="First Name"/>
               </Form.Label>
             </Form.Group>
             <Form.Group>
               <Form.Label>
-                <Form.Control onChange={this.changeFunction} type="input" name="lastName" value={this.state.lastName} placeholder="Last Name"/>
+                <Form.Control onChange={this.changeFunction} as="input" name="lastName" value={this.state.lastName} placeholder="Last Name"/>
               </Form.Label>
             </Form.Group>
             <Form.Group>
               <Form.Label>
-                <Form.Control onChange={this.changeFunction} type="input" name="email" value={this.state.email} placeholder="Email Address"/>
+                <Form.Control onChange={this.changeFunction} as="input" name="email" value={this.state.email} placeholder="Email Address"/>
               </Form.Label>
             </Form.Group>
             <Form.Group>
                 <Form.Label>Select Service Type:
-                  <select onChange={this.changeFunction} name="selectData" value={this.state.selectData} placeholder="Service Type">
+                  <Form.Control as="select" onChange={this.changeFunction} name="selectData" value={this.state.selectData} placeholder="Service Type">
                     {this.state.info.map((item, id) => {
                         return <option key={id}>{item.display_name}</option>
                       })}
-                  </select>
+                  </Form.Control>
                 </Form.Label>
             </Form.Group>
             <Form.Group>
               <Form.Label>
-              <Form.Control type="textarea" onChange={this.changeFunction} name="textData" value={this.state.textData}/>
+              <Form.Control as="textarea" onChange={this.changeFunction} name="textData" value={this.state.textData}/>
               </Form.Label>
           </Form.Group>
             <Form.Group><Form.Check type="checkbox" checked={this.state.checked} onChange={this.isChecked} label="I hereby accept the terms of service for THE NETWORK and the Privacy Policy"/></Form.Group>
